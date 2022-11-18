@@ -1,17 +1,7 @@
 # frozen_string_literal: true
 
 module Y2018
-  class Day01
-    attr_reader :input
-
-    def initialize(file)
-      @input = File.readlines(file).map(&:strip)
-    end
-
-    def numbers
-      @numbers ||= input.map(&:to_i)
-    end
-
+  class Day01 < InputReader
     def part1
       numbers.sum
     end

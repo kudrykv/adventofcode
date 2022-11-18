@@ -1,13 +1,7 @@
 # frozen_string_literal: true
 
 module Y2018
-  class Day02
-    attr_reader :input
-
-    def initialize(file)
-      @input = File.readlines(file).map(&:strip)
-    end
-
+  class Day02 < InputReader
     def part1
       tallies_having_exactly(2).count * tallies_having_exactly(3).count
     end
