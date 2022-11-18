@@ -5,3 +5,9 @@ source "https://rubygems.org"
 # gem "rails"
 
 gem "rspec", "~> 3.12"
+
+gem "rubocop", "~> 1.39"
+
+gem "rubocop-rspec", "~> 2.15"
+
+gem "zeitwerk", "~> 2.6"
