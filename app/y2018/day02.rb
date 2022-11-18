@@ -12,6 +12,10 @@ module Y2018
       tallies_having_exactly(2).count * tallies_having_exactly(3).count
     end
 
+    def part2
+      input.combination(2).find { |a, b| a.chars.zip(b.chars).count { |x, y| x != y } == 1 }
+    end
+
     private
 
     def tallies_having_exactly(num)
