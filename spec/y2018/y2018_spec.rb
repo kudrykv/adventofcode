@@ -13,6 +13,6 @@ describe 'Y2018' do
 
   describe 'day 3' do
     it { p Y2018::Day03.new("#{__dir__}/day03.txt").part1 }
-    # it { p Y2018::Day03.new("#{__dir__}/day03.txt").part2 }
+    it { p Y2018::Day03.new("#{__dir__}/day03.txt").part2 }
   end
 end

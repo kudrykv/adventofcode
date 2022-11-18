@@ -27,19 +27,33 @@ module Y2018
       def mark(sheet)
         (sheet.offset.x...sheet.offset.x + sheet.piece.width).each do |x|
           (sheet.offset.y...sheet.offset.y + sheet.piece.height).each do |y|
-            fabric[x][y] += 1
+            fabric[x][y] += [sheet.id]
           end
         end
       end
 
       def overlapping_claims
-        fabric.flatten.count { |count| count > 1 }
+        fabric.flatten(1).count { |ids| ids.count > 1 }
+      end
+
+      def name_overlapping_claims
+        fabric.flatten(1).each do |ids|
+          next if ids.uniq.count <= 1
+
+          ids.each { |id| dirty[id.to_s] = true }
+        end
+
+        dirty.keys
       end
 
       private
 
+      def dirty
+        @dirty ||= {}
+      end
+
       def fabric
-        @fabric ||= Array.new(1000) { Array.new(1000, 0) }
+        @fabric ||= Array.new(1000) { Array.new(1000, []) }
       end
     end
   end
@@ -48,6 +62,13 @@ module Y2018
     def part1
       pieces.each { |piece| Fabric.mark(piece) }
       Fabric.overlapping_claims
+    end
+
+    def part2
+      pieces.each { |piece| Fabric.mark(piece) }
+      bad_ids = Fabric.name_overlapping_claims.map(&:to_i)
+
+      pieces.reject { |piece| bad_ids.include?(piece.id) }
     end
 
     private
