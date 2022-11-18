@@ -4,6 +4,7 @@ require 'zeitwerk'
 require 'rspec'
 
 loader = Zeitwerk::Loader.new
+loader.collapse('*')
 loader.push_dir('app')
 loader.setup
 
