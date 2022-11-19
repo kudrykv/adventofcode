@@ -10,4 +10,12 @@ class InputReader
   def numbers
     @numbers ||= lines.map(&:to_i)
   end
+
+  def part1
+    raise NotImplementedError
+  end
+
+  def part2
+    raise NotImplementedError
+  end
 end
