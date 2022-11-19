@@ -74,7 +74,7 @@ module Y2018
     private
 
     def pieces
-      @pieces ||= input.map { |line| Sheet.parse(line) }
+      @pieces ||= lines.map { |line| Sheet.parse(line) }
     end
   end
 end

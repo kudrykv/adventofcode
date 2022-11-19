@@ -7,7 +7,7 @@ module Y2018
     end
 
     def part2
-      input.combination(2).find { |a, b| a.chars.zip(b.chars).count { |x, y| x != y } == 1 }
+      lines.combination(2).find { |a, b| a.chars.zip(b.chars).count { |x, y| x != y } == 1 }
     end
 
     private
@@ -17,7 +17,7 @@ module Y2018
     end
 
     def tallies
-      input.map { |line| line.split('').tally }
+      lines.map { |line| line.split('').tally }
     end
   end
 end

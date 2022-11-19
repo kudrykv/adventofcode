@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 class InputReader
-  attr_reader :input
+  attr_reader :lines
 
   def initialize(file)
-    @input = File.readlines(file).map(&:strip)
+    @lines = File.readlines(file).map(&:strip)
   end
 
   def numbers
-    @numbers ||= input.map(&:to_i)
+    @numbers ||= lines.map(&:to_i)
   end
 end
