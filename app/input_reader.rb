@@ -7,6 +7,10 @@ class InputReader
     @lines = File.readlines(file).map(&:strip)
   end
 
+  def input
+    @input ||= lines.join("\n").strip
+  end
+
   def numbers
     @numbers ||= lines.map(&:to_i)
   end
