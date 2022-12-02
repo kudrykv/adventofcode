@@ -3,26 +3,17 @@
 module Y2022
   class Day02 < InputReader
     def part1
-      play.map(&:score).sum
+      outcomes_my_pov.map(&:score).sum
     end
 
     def part2
-      series_of_outcomes.map(&:opposite_move_to_result).map(&:score).sum
+      outcomes_elves_pov.map(&:opposite_move_to_result).map(&:score).sum
     end
 
     private
 
-    def play
-      series_of_rounds.map do |opponent_move, my_move|
-        round(opponent_move, my_move)
-      end
-    end
-
-    def round(opponent_move, my_move)
-      return RoundResult.new(my_move, Win.new) if my_move.beats?(opponent_move)
-      return RoundResult.new(my_move, Lose.new) if opponent_move.beats?(my_move)
-
-      RoundResult.new(my_move, Draw.new)
+    def outcomes_my_pov
+      series_of_rounds.map { |opponent_move, my_move| play_round(opponent_move, my_move) }
     end
 
     def series_of_rounds
@@ -33,7 +24,14 @@ module Y2022
       end
     end
 
-    def series_of_outcomes
+    def play_round(opponent_move, my_move)
+      return RoundResult.new(my_move, Win.new) if my_move.beats?(opponent_move)
+      return RoundResult.new(my_move, Lose.new) if opponent_move.beats?(my_move)
+
+      RoundResult.new(my_move, Draw.new)
+    end
+
+    def outcomes_elves_pov
       lines.map do |line|
         opponent_move, outcome = line.split(' ')
         move = parse_opponent_move(opponent_move)
