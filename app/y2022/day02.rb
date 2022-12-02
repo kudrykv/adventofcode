@@ -7,7 +7,7 @@ module Y2022
     end
 
     def part2
-      series_of_outcomes.map(&:opposite).map(&:score).sum
+      series_of_outcomes.map(&:opposite_move_to_result).map(&:score).sum
     end
 
     private
@@ -76,7 +76,7 @@ module Y2022
       @result = result
     end
 
-    def opposite
+    def opposite_move_to_result
       return self if result.is_a?(Draw)
       return RoundResult.new(move.beats, result) if result.is_a?(Lose)
 
