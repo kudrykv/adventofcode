@@ -50,7 +50,7 @@ module Y2022
     end
 
     def duplicates
-      left.intersection(right)
+      left & right
     end
 
     def all
