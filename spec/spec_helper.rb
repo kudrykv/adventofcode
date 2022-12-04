@@ -2,6 +2,7 @@
 
 require 'zeitwerk'
 require 'rspec'
+require 'active_support/all'
 
 loader = Zeitwerk::Loader.new
 loader.collapse('*')
