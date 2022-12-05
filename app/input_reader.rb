@@ -8,7 +8,7 @@ class InputReader
   end
 
   def input
-    @input ||= lines.map(&:strip).join("\n").strip
+    @input ||= lines.join('')
   end
 
   def numbers
