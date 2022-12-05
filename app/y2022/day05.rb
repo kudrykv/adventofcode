@@ -3,30 +3,29 @@
 module Y2022
   class Day05 < InputReader
     def part1
-      plate = crate_ground
+      crates = crate_ground
 
-      serialized_moves
-        .split("\n")
-        .map { |line| line.scan(/\d+/) }
-        .map { |amount, from, to| [amount.to_i, from.to_sym, to.to_sym] }
-        .map { |amount, from, to| plate.move_one_by_one(amount, from, to) }
+      parsed_moves.each { |amount, from, to| crates.move_one_by_one(amount, from, to) }
 
-      plate.tops
+      crates.tops
     end
 
     def part2
-      plate = crate_ground
+      crates = crate_ground
 
-      serialized_moves
-        .split("\n")
-        .map { |line| line.scan(/\d+/) }
-        .map { |amount, from, to| [amount.to_i, from.to_sym, to.to_sym] }
-        .map { |amount, from, to| plate.move_all_at_once(amount, from, to) }
+      parsed_moves.map { |amount, from, to| crates.move_all_at_once(amount, from, to) }
 
-      plate.tops
+      crates.tops
     end
 
     private
+
+    def parsed_moves
+      @parsed_moves ||= serialized_moves
+                        .split("\n")
+                        .map { |line| line.scan(/\d+/) }
+                        .map { |amount, from, to| [amount.to_i, from.to_sym, to.to_sym] }
+    end
 
     def crate_ground
       reversed = serialized_containers.split("\n").reverse
