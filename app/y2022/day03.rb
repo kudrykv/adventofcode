@@ -17,7 +17,7 @@ module Y2022
     end
 
     def rucksacks
-      @rucksacks ||= lines.map { |line| Rucksack.parse(line) }
+      @rucksacks ||= lines.map(&:strip).map { |line| Rucksack.parse(line) }
     end
   end
 

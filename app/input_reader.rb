@@ -4,15 +4,15 @@ class InputReader
   attr_reader :lines
 
   def initialize(file)
-    @lines = File.readlines(file).map(&:strip)
+    @lines = File.readlines(file)
   end
 
   def input
-    @input ||= lines.join("\n").strip
+    @input ||= lines.map(&:strip).join("\n").strip
   end
 
   def numbers
-    @numbers ||= lines.map(&:to_i)
+    @numbers ||= lines.map(&:strip).map(&:to_i)
   end
 
   def part1
