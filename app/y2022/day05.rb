@@ -45,12 +45,19 @@ module Y2022
         end
       end
 
-      h = h
-          .map { |k, v| [k, v.reject(&:nil?).map(&:strip).reject(&:empty?)] }
-          .reject { |_, v| v.empty? }
-          .map { |id, list| Crate.new(id, list.map { |item| Container.new(item) }) }
+      clean_hash = cleanup_parsed_hash(h)
+      crates = hash_to_crates(clean_hash)
 
-      CraneGround.new(h)
+      CraneGround.new(crates)
+    end
+
+    def cleanup_parsed_hash(hash)
+      hash.map { |k, v| [k, v.reject(&:nil?).map(&:strip).reject(&:empty?)] }
+          .reject { |_, v| v.empty? }
+    end
+
+    def hash_to_crates(hash)
+      hash.map { |id, list| Crate.new(id, list.map { |item| Container.new(item) }) }
     end
 
     def serialized_containers
