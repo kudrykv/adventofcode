@@ -43,17 +43,10 @@ module Y2022
     def visible?(row_index, column_index)
       return true if on_the_edge?(row_index, column_index)
 
-      left = true
-      right = true
-      top = true
-      bottom = true
-
-      tree = matrix[row_index][column_index]
-
-      to_the_top(row_index, column_index) { |other_tree| break top = false if other_tree.blocks_view?(tree) }
-      to_the_left(row_index, column_index) { |other_tree| break left = false if other_tree.blocks_view?(tree) }
-      to_the_bottom(row_index, column_index) { |other_tree| break bottom = false if other_tree.blocks_view?(tree) }
-      to_the_right(row_index, column_index) { |other_tree| break right = false if other_tree.blocks_view?(tree) }
+      left = visible_in_direction?(:to_the_left, row_index, column_index)
+      right = visible_in_direction?(:to_the_right, row_index, column_index)
+      top = visible_in_direction?(:to_the_top, row_index, column_index)
+      bottom = visible_in_direction?(:to_the_bottom, row_index, column_index)
 
       top || left || right || bottom
     end
@@ -71,34 +64,35 @@ module Y2022
     def scenic_score(row_index, column_index)
       return 0 if on_the_edge?(row_index, column_index)
 
-      left = 0
-      right = 0
-      top = 0
-      bottom = 0
-
-      tree = matrix[row_index][column_index]
-
-      to_the_top(row_index, column_index) do |other_tree|
-        top += 1
-        break if other_tree.blocks_view?(tree)
-      end
-
-      to_the_left(row_index, column_index) do |other_tree|
-        left += 1
-        break if other_tree.blocks_view?(tree)
-      end
-
-      to_the_bottom(row_index, column_index) do |other_tree|
-        bottom += 1
-        break if other_tree.blocks_view?(tree)
-      end
-
-      to_the_right(row_index, column_index) do |other_tree|
-        right += 1
-        break if other_tree.blocks_view?(tree)
-      end
+      left = score_in_direction(:to_the_left, row_index, column_index)
+      right = score_in_direction(:to_the_right, row_index, column_index)
+      top = score_in_direction(:to_the_top, row_index, column_index)
+      bottom = score_in_direction(:to_the_bottom, row_index, column_index)
 
       top * left * right * bottom
+    end
+
+    def visible_in_direction?(to_call, row_index, column_index)
+      visible = true
+      tree = matrix[row_index][column_index]
+
+      method(to_call).call(row_index, column_index) do |other_tree|
+        break visible = false if other_tree.blocks_view?(tree)
+      end
+
+      visible
+    end
+
+    def score_in_direction(to_call, row_index, column_index)
+      score = 0
+      tree = matrix[row_index][column_index]
+
+      method(to_call).call(row_index, column_index) do |other_tree|
+        score += 1
+        break if other_tree.blocks_view?(tree)
+      end
+
+      score
     end
 
     def to_the_left(row_index, column_index)
