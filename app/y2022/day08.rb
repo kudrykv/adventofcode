@@ -80,6 +80,8 @@ module Y2022
     end
 
     def scenic_score(row_index, column_index)
+      return 0 if on_the_edge?(row_index, column_index)
+
       left = 0
       right = 0
       top = 0
