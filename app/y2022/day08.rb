@@ -50,21 +50,10 @@ module Y2022
 
       tree = matrix[row_index][column_index]
 
-      (row_index - 1).downto(0) do |row|
-        break top = false if matrix[row][column_index].blocks_view?(tree)
-      end
-
-      (column_index - 1).downto(0) do |column|
-        break left = false if matrix[row_index][column].blocks_view?(tree)
-      end
-
-      (row_index + 1).upto(edge) do |row|
-        break bottom = false if matrix[row][column_index].blocks_view?(tree)
-      end
-
-      (column_index + 1).upto(edge) do |column|
-        break right = false if matrix[row_index][column].blocks_view?(tree)
-      end
+      to_the_top(row_index, column_index) { |other_tree| break top = false if other_tree.blocks_view?(tree) }
+      to_the_left(row_index, column_index) { |other_tree| break left = false if other_tree.blocks_view?(tree) }
+      to_the_bottom(row_index, column_index) { |other_tree| break bottom = false if other_tree.blocks_view?(tree) }
+      to_the_right(row_index, column_index) { |other_tree| break right = false if other_tree.blocks_view?(tree) }
 
       top || left || right || bottom
     end
@@ -89,27 +78,51 @@ module Y2022
 
       tree = matrix[row_index][column_index]
 
-      (row_index - 1).downto(0) do |row|
+      to_the_top(row_index, column_index) do |other_tree|
         top += 1
-        break if matrix[row][column_index].blocks_view?(tree)
+        break if other_tree.blocks_view?(tree)
       end
 
-      (column_index - 1).downto(0) do |column|
+      to_the_left(row_index, column_index) do |other_tree|
         left += 1
-        break if matrix[row_index][column].blocks_view?(tree)
+        break if other_tree.blocks_view?(tree)
       end
 
-      (row_index + 1).upto(edge) do |row|
+      to_the_bottom(row_index, column_index) do |other_tree|
         bottom += 1
-        break if matrix[row][column_index].blocks_view?(tree)
+        break if other_tree.blocks_view?(tree)
       end
 
-      (column_index + 1).upto(edge) do |column|
+      to_the_right(row_index, column_index) do |other_tree|
         right += 1
-        break if matrix[row_index][column].blocks_view?(tree)
+        break if other_tree.blocks_view?(tree)
       end
 
       top * left * right * bottom
+    end
+
+    def to_the_left(row_index, column_index)
+      (column_index - 1).downto(0) do |column|
+        yield matrix[row_index][column]
+      end
+    end
+
+    def to_the_right(row_index, column_index)
+      (column_index + 1).upto(edge) do |column|
+        yield matrix[row_index][column]
+      end
+    end
+
+    def to_the_top(row_index, column_index)
+      (row_index - 1).downto(0) do |row|
+        yield matrix[row][column_index]
+      end
+    end
+
+    def to_the_bottom(row_index, column_index)
+      (row_index + 1).upto(edge) do |row|
+        yield matrix[row][column_index]
+      end
     end
 
     def edge
