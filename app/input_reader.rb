@@ -15,6 +15,14 @@ class InputReader
     @numbers ||= lines.map(&:strip).map(&:to_i)
   end
 
+  def numbers_matrix
+    @numbers_matrix ||= chars_matrix.map { |line| line.map(&:to_i) }
+  end
+
+  def chars_matrix
+    @matrix ||= lines.map(&:strip).map { |line| line.strip.split('') }
+  end
+
   def part1
     raise NotImplementedError
   end
