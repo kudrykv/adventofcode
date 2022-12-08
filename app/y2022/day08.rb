@@ -51,27 +51,6 @@ module Y2022
       top || left || right || bottom
     end
 
-    def best_scenic_score
-      matrix.each_with_index do |row, row_index|
-        row.each_with_index do |tree, column_index|
-          tree.scenic_score = calculate_scenic_score(row_index, column_index)
-        end
-      end
-
-      matrix.flatten.map(&:scenic_score).max
-    end
-
-    def calculate_scenic_score(row_index, column_index)
-      return 0 if on_the_edge?(row_index, column_index)
-
-      left = score_in_direction(:to_the_left, row_index, column_index)
-      right = score_in_direction(:to_the_right, row_index, column_index)
-      top = score_in_direction(:to_the_top, row_index, column_index)
-      bottom = score_in_direction(:to_the_bottom, row_index, column_index)
-
-      top * left * right * bottom
-    end
-
     def visible_in_direction?(to_call, row_index, column_index)
       visible = true
       tree = matrix[row_index][column_index]
@@ -83,7 +62,28 @@ module Y2022
       visible
     end
 
+    def best_scenic_score
+      matrix.each_with_index do |row, row_index|
+        row.each_with_index do |tree, column_index|
+          tree.scenic_score = calculate_scenic_score(row_index, column_index)
+        end
+      end
+
+      matrix.flatten.map(&:scenic_score).max
+    end
+
+    def calculate_scenic_score(row_index, column_index)
+      left = score_in_direction(:to_the_left, row_index, column_index)
+      right = score_in_direction(:to_the_right, row_index, column_index)
+      top = score_in_direction(:to_the_top, row_index, column_index)
+      bottom = score_in_direction(:to_the_bottom, row_index, column_index)
+
+      top * left * right * bottom
+    end
+
     def score_in_direction(to_call, row_index, column_index)
+      return 0 if on_the_edge?(row_index, column_index)
+
       score = 0
       tree = matrix[row_index][column_index]
 
