@@ -120,7 +120,7 @@ module Y2022
     end
 
     def edge
-      matrix.size - 1
+      @edge ||= matrix.size - 1
     end
 
     def on_the_edge?(row_index, column_index)
