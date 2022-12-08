@@ -29,15 +29,15 @@ module Y2022
     end
 
     def visible_trees
-      @visible = 0
+      visible = 0
 
       matrix.each_with_index do |row, row_index|
         row.each_with_index do |_tree, column_index|
-          @visible += 1 if visible?(row_index, column_index)
+          visible += 1 if visible?(row_index, column_index)
         end
       end
 
-      @visible
+      visible
     end
 
     def visible?(row_index, column_index)
@@ -54,14 +54,14 @@ module Y2022
     def best_scenic_score
       matrix.each_with_index do |row, row_index|
         row.each_with_index do |tree, column_index|
-          tree.scenic_score = scenic_score(row_index, column_index)
+          tree.scenic_score = calculate_scenic_score(row_index, column_index)
         end
       end
 
       matrix.flatten.map(&:scenic_score).max
     end
 
-    def scenic_score(row_index, column_index)
+    def calculate_scenic_score(row_index, column_index)
       return 0 if on_the_edge?(row_index, column_index)
 
       left = score_in_direction(:to_the_left, row_index, column_index)
