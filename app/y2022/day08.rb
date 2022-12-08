@@ -3,16 +3,16 @@
 module Y2022
   class Day08 < InputReader
     def part1
-      grid.visible_trees
+      forest.visible_trees
     end
 
     def part2
-      grid.best_scenic_score
+      forest.best_scenic_score
     end
 
     private
 
-    def grid
+    def forest
       Forest.new(matrix)
     end
 
