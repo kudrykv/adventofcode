@@ -20,7 +20,7 @@ class InputReader
   end
 
   def chars_matrix
-    @matrix ||= lines.map(&:strip).map { |line| line.strip.split('') }
+    @chars_matrix ||= lines.map(&:strip).map { |line| line.strip.split('') }
   end
 
   def part1
