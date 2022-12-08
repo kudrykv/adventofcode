@@ -13,7 +13,7 @@ module Y2022
     private
 
     def grid
-      Grid.new(matrix)
+      Forest.new(matrix)
     end
 
     def matrix
@@ -21,7 +21,7 @@ module Y2022
     end
   end
 
-  class Grid
+  class Forest
     attr_reader :matrix
 
     def initialize(matrix)
