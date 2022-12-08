@@ -43,30 +43,30 @@ module Y2022
     def visible?(row_index, column_index)
       return true if on_the_edge?(row_index, column_index)
 
-      @left = true
-      @right = true
-      @top = true
-      @bottom = true
+      left = true
+      right = true
+      top = true
+      bottom = true
 
       tree = matrix[row_index][column_index]
 
       (row_index - 1).downto(0) do |row|
-        break @top = false if matrix[row][column_index].blocks_view?(tree)
+        break top = false if matrix[row][column_index].blocks_view?(tree)
       end
 
       (column_index - 1).downto(0) do |column|
-        break @left = false if matrix[row_index][column].blocks_view?(tree)
+        break left = false if matrix[row_index][column].blocks_view?(tree)
       end
 
       (row_index + 1).upto(edge) do |row|
-        break @bottom = false if matrix[row][column_index].blocks_view?(tree)
+        break bottom = false if matrix[row][column_index].blocks_view?(tree)
       end
 
       (column_index + 1).upto(edge) do |column|
-        break @right = false if matrix[row_index][column].blocks_view?(tree)
+        break right = false if matrix[row_index][column].blocks_view?(tree)
       end
 
-      @top || @left || @right || @bottom
+      top || left || right || bottom
     end
 
     def best_scenic_score
@@ -80,34 +80,34 @@ module Y2022
     end
 
     def scenic_score(row_index, column_index)
-      @left = 0
-      @right = 0
-      @top = 0
-      @bottom = 0
+      left = 0
+      right = 0
+      top = 0
+      bottom = 0
 
       tree = matrix[row_index][column_index]
 
       (row_index - 1).downto(0) do |row|
-        @top += 1
+        top += 1
         break if matrix[row][column_index].blocks_view?(tree)
       end
 
       (column_index - 1).downto(0) do |column|
-        @left += 1
+        left += 1
         break if matrix[row_index][column].blocks_view?(tree)
       end
 
       (row_index + 1).upto(edge) do |row|
-        @bottom += 1
+        bottom += 1
         break if matrix[row][column_index].blocks_view?(tree)
       end
 
       (column_index + 1).upto(edge) do |column|
-        @right += 1
+        right += 1
         break if matrix[row_index][column].blocks_view?(tree)
       end
 
-      @top * @left * @right * @bottom
+      top * left * right * bottom
     end
 
     def edge
