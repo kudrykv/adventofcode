@@ -4,39 +4,21 @@ module Y2022
   class Day10 < InputReader
     def part1
       gpu = GPU.new
-      results = execute_input(gpu)
 
-      results.sum
+      commands.each { |command| gpu.execute(command) }
+
+      gpu.inspection_results.sum
     end
 
     def part2
       gpu = GPU.new
 
-      execute_input(gpu)
+      commands.each { |command| gpu.execute(command) }
 
       gpu.render_crt
     end
 
     private
-
-    def execute_input(gpu)
-      inspects = (20..220).step(40).to_a
-      results = []
-
-      commands.each do |command|
-        gpu.send_to_execute(command)
-
-        loop do
-          break if gpu.ready?
-
-          gpu.tick
-          results << gpu.signal_strength if inspects.include?(gpu.timer)
-          gpu.calculate
-        end
-      end
-
-      results
-    end
 
     def commands
       lines.map(&:strip).map { |line| line.split(' ') }.map do |cmd, arg|
@@ -53,16 +35,27 @@ module Y2022
   end
 
   class GPU
-    attr_accessor :timer, :register_x, :command, :crt
+    attr_accessor :timer, :register_x, :command, :crt, :inspection_results
+    attr_reader :inspects
 
     def initialize
       @timer = 0
       @register_x = 1
       @crt = []
+      @inspects = (20..220).step(40).to_a
+      @inspection_results = []
     end
 
-    def send_to_execute(cmd)
-      self.command = cmd
+    def execute(command)
+      self.command = command
+
+      loop do
+        break if command.ready?
+
+        tick
+        inspection_results << signal_strength if inspects.include?(timer)
+        calculate
+      end
     end
 
     def tick
@@ -78,11 +71,7 @@ module Y2022
     end
 
     def calculate
-      self.register_x += command.argument if ready?
-    end
-
-    def ready?
-      command.ready?
+      self.register_x += command.argument if command.ready?
     end
 
     def signal_strength
