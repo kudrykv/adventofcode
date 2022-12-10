@@ -4,6 +4,22 @@ module Y2022
   class Day10 < InputReader
     def part1
       gpu = GPU.new
+      results = execute_input(gpu)
+
+      results.sum
+    end
+
+    def part2
+      gpu = GPU.new
+
+      execute_input(gpu)
+
+      gpu.render_crt
+    end
+
+    private
+
+    def execute_input(gpu)
       inspects = (20..220).step(40).to_a
       results = []
 
@@ -19,27 +35,8 @@ module Y2022
         end
       end
 
-      results.sum
+      results
     end
-
-    def part2
-      gpu = GPU.new
-
-      commands.each do |command|
-        gpu.send_to_execute(command)
-
-        loop do
-          break if gpu.ready?
-
-          gpu.tick
-          gpu.calculate
-        end
-      end
-
-      gpu.render_crt
-    end
-
-    private
 
     def commands
       lines.map(&:strip).map { |line| line.split(' ') }.map do |cmd, arg|
