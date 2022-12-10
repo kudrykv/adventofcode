@@ -44,7 +44,7 @@ describe 'Y2022' do
   end
 
   describe 'day 7' do
-    it { expect(Y2022::Day07.new("#{__dir__}/day07_example.txt").part1).to eq 95437 }
+    it { expect(Y2022::Day07.new("#{__dir__}/day07_example.txt").part1).to eq 95_437 }
     it { p Y2022::Day07.new("#{__dir__}/day07.txt").part1 }
     it { expect(Y2022::Day07.new("#{__dir__}/day07_example.txt").part2).to eq 24_933_642 }
     it { p Y2022::Day07.new("#{__dir__}/day07.txt").part2 }
@@ -62,5 +62,34 @@ describe 'Y2022' do
     # it { p Y2022::Day09.new("#{__dir__}/day09.txt").part1 }
     it { expect(Y2022::Day09.new("#{__dir__}/day09_example2.txt").part2).to eq 36 }
     it { p Y2022::Day09.new("#{__dir__}/day09.txt").part2 }
+  end
+
+  describe 'day 10' do
+    let(:example_pic) do
+      <<~PIC
+        ##..##..##..##..##..##..##..##..##..##..
+        ###...###...###...###...###...###...###.
+        ####....####....####....####....####....
+        #####.....#####.....#####.....#####.....
+        ######......######......######......####
+        #######.......#######.......#######.....
+      PIC
+    end
+
+    let(:part2_pic) do
+      <<~PIC
+        ###..#..#..##..####..##....##.###..###..
+        #..#.#.#..#..#....#.#..#....#.#..#.#..#.
+        #..#.##...#..#...#..#..#....#.###..#..#.
+        ###..#.#..####..#...####....#.#..#.###..
+        #.#..#.#..#..#.#....#..#.#..#.#..#.#.#..
+        #..#.#..#.#..#.####.#..#..##..###..#..#.
+      PIC
+    end
+
+    it { expect(Y2022::Day10.new("#{__dir__}/day10_example.txt").part1).to eq 13_140 }
+    it { p Y2022::Day10.new("#{__dir__}/day10.txt").part1 }
+    it { expect(Y2022::Day10.new("#{__dir__}/day10_example.txt").part2).eql?(example_pic) }
+    it { expect(Y2022::Day10.new("#{__dir__}/day10.txt").part2).eql?(part2_pic) }
   end
 end
