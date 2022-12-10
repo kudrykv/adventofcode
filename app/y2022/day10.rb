@@ -35,7 +35,7 @@ module Y2022
   end
 
   class GPU
-    attr_accessor :timer, :register_x, :command, :crt, :inspection_results
+    attr_accessor :timer, :register_x, :crt, :inspection_results
     attr_reader :inspects
 
     def initialize
@@ -47,31 +47,21 @@ module Y2022
     end
 
     def execute(command)
-      self.command = command
-
       loop do
         break if command.ready?
 
-        tick
+        push_to_crt
+        self.timer += 1
+        command.tick
         inspection_results << signal_strength if inspects.include?(timer)
-        calculate
+        self.register_x += command.argument if command.ready?
       end
-    end
-
-    def tick
-      push_to_crt
-      self.timer += 1
-      command.tick
     end
 
     def push_to_crt
       return crt << '#' if ((timer % 40) - register_x).abs <= 1
 
       crt << '.'
-    end
-
-    def calculate
-      self.register_x += command.argument if command.ready?
     end
 
     def signal_strength
