@@ -106,4 +106,11 @@ describe 'Y2022' do
     # it { expect(Y2022::Day12.new("#{__dir__}/day12_example.txt").part2).to eq 286 }
     # it { p Y2022::Day12.new("#{__dir__}/day12.txt").part2 }
   end
+
+  describe 'day 13' do
+    it { expect(Y2022::Day13.new("#{__dir__}/day13_example.txt").part1).to eq 13 }
+    it { p Y2022::Day13.new("#{__dir__}/day13.txt").part1 }
+    it { expect(Y2022::Day13.new("#{__dir__}/day13_example.txt").part2).to eq 140 }
+    it { p Y2022::Day13.new("#{__dir__}/day13.txt").part2 }
+  end
 end
